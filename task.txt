@@ -1,0 +1,32 @@
+
+Tehdään Go:lla web server, jonka REST Apin kautta voi tehdä normaalit CRUD (create, retrieve, update, delete) operaatiot alla olevalle Json oliolle.
+Kantana on LevelDB ja web frameworkkiin Gin, molempiin linkit alla. LevelDB:n ei ole kovin hyvää ilmaista gui editoria, mutta löysin yhden (levelui) jolla pärjää, linkki alla myös.
+Testaukseen voi käyttää Postman'ia tai jotain browser extensiota, jolla lähetellä rest kutsuja.
+
+{
+  "firstName": "Matti"
+  "lastName": "Meikäläinen"
+  "personalCode": 123456          (personal code on uniikki numero per henkilö)
+}
+
+Tarkempi speksi
+1. API: Urlit, get, post, yms --> keksi itse
+   - update komennossa riittää, että päivitetään koko olio (ei tarvitse per kenttä)
+2. Apista tuleva json puretaan Go structiksi heti alkuun eli jsonia ei sellaisenaan käsitellä go koodissa, se on vain rajapinnassa
+3. LevelDB
+   - keksi mitä olisi järkevä key
+   - serialisoi go structit takaisin jsoniksi ennenkuin tallennetaan leveldb:hen, niin voi levelui:lla katsella
+4. Käsittele kaikki relevantit virhetapaukset jotenkin, esim.
+   - client lähettää väärän jsonin
+   - retrieve/update/delete henkilöä ei ole
+   - leveldb operaatio failaa
+   - jne
+5. Tee yksikkötestit siinä laajuudessa kuin vaikuttaa järkevältä
+
+
+kirjastot
+1. https://github.com/syndtr/goleveldb
+2. https://github.com/gin-gonic/gin
+
+levedb gui
+1. https://github.com/heapwolf/levelui

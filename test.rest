@@ -1,9 +1,14 @@
+GET http://localhost:3000/ HTTP/1.1
+content-type: application/json
+
+###
+
 POST http://localhost:3001/v1/user HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "teemu",
-    "lastName": "halme"
+    "firstName": "test",
+    "lastName": "test1"
 }
 
 ###
@@ -17,13 +22,13 @@ content-type: application/json
 
 ###
 
-GET http://localhost:3001/v1/user/94008c07-c6b9-447c-9072-1b19929d64f7 HTTP/1.1
+GET http://localhost:3001/v1/user/44ae254f-0f89-402b-92c2-416746f87ef1 HTTP/1.1
 content-type: application/json
 ###
 
-GET http://localhost:3000/user/ece02bfb-a270-4ab0-b1e5-055d5f4bb158 HTTP/1.1
+GET http://localhost:3001/v1/user HTTP/1.1
 content-type: application/json
 ###
 
-DELETE  http://localhost:3000/user/ece02bfb-a270-4ab0-b1e5-055d5f4bb158 HTTP/1.1
+DELETE  http://localhost:3001/v1/user/d0813298-695c-46f7-8611-2d7c8560c959 HTTP/1.1
 content-type: application/json

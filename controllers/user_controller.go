@@ -38,19 +38,37 @@ func (uc *UserController) GetUser(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, &user)
-	return
 }
 
 func (uc *UserController) GetAll(ctx *gin.Context) {
-	return
+	allUsers, err := uc.UserService.GetAll()
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, &allUsers)
 }
 
 func (uc *UserController) UpdateUser(ctx *gin.Context) {
-	return
+	var user models.User
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	if err := uc.UserService.UpdateUser(&user, ctx.Params.ByName("personalCode")); err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, &user)
 }
 
 func (uc *UserController) DeleteUser(ctx *gin.Context) {
-	return
+	if err := uc.UserService.DeleteUser(ctx.Params.ByName("personalCode")); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, nil)
+
 }
 
 func (uc *UserController) RegisterUserRoutes(rg *gin.RouterGroup) {
