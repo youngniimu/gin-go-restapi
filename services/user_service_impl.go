@@ -28,25 +28,6 @@ func (usi *UserServiceImpl) CreateUser(user *models.User) error {
 	u, err := json.Marshal(&user)
 
 	usi.userCollection.Put([]byte(pc), []byte(u), nil)
-	// func createUser(db *leveldb.DB) func(ctx *gin.Context) {
-	// 	return func(ctx *gin.Context) {
-	// 		newUser := User{}
-	// 		err := ctx.ShouldBindJSON(&newUser)
-	// 		if err != nil {
-	// 			ctx.AbortWithError(http.StatusBadRequest, err)
-	// 			return
-	// 		}
-	// 		newUser.PersonalCode = uuid.New()
-	// 		pc, err := json.Marshal(&newUser.PersonalCode)
-	// 		u, err := json.Marshal(&newUser)
-	// 		if err != nil {
-	// 			panic(err)
-	// 		}
-	// 		db.Put([]byte(pc), []byte(u), nil)
-	// 		ctx.JSON(http.StatusCreated, &newUser)
-	// 		return
-	// 	}
-	// }
 	return err
 }
 
