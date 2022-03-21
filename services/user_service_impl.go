@@ -1,7 +1,6 @@
 package services
 
 import (
-	"context"
 	"encoding/json"
 	"go-rest-api/models"
 
@@ -11,13 +10,11 @@ import (
 
 type UserServiceImpl struct {
 	userCollection *leveldb.DB
-	ctx            context.Context
 }
 
-func NewUserService(userCollection *leveldb.DB, ctx context.Context) UserService {
+func NewUserService(userCollection *leveldb.DB) UserService {
 	return &UserServiceImpl{
 		userCollection: userCollection,
-		ctx:            ctx,
 	}
 }
 
@@ -25,7 +22,7 @@ func (usi *UserServiceImpl) CreateUser(user *models.User) error {
 	user.PersonalCode = uuid.New()
 	pc, err := json.Marshal(&user.PersonalCode)
 	u, err := json.Marshal(&user)
-	usi.userCollection.Put([]byte(pc), []byte(u), nil)
+	err = usi.userCollection.Put([]byte(pc), []byte(u), nil)
 	return err
 }
 
@@ -33,7 +30,10 @@ func (usi *UserServiceImpl) GetUser(personalCode string) (*models.User, error) {
 	var user models.User
 	pc, err := json.Marshal(personalCode)
 	value, err := usi.userCollection.Get([]byte(pc), nil)
-	json.Unmarshal([]byte(value), &user)
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal([]byte(value), &user)
 	return &user, err
 }
 
@@ -51,14 +51,22 @@ func (usi *UserServiceImpl) GetAll() ([]models.User, error) {
 
 func (usi *UserServiceImpl) UpdateUser(user *models.User, personalCode string) error {
 	pc, err := json.Marshal(personalCode)
+	_, err = usi.userCollection.Get([]byte(pc), nil)
+	if err != nil {
+		return err
+	}
 	user.PersonalCode, err = uuid.Parse(personalCode)
 	u, err := json.Marshal(&user)
-	usi.userCollection.Put([]byte(pc), []byte(u), nil)
+	err = usi.userCollection.Put([]byte(pc), []byte(u), nil)
 	return err
 }
 
 func (usi *UserServiceImpl) DeleteUser(personalCode string) error {
 	pc, err := json.Marshal(personalCode)
+	_, err = usi.userCollection.Get([]byte(pc), nil)
+	if err != nil {
+		return err
+	}
 	err = usi.userCollection.Delete([]byte(pc), nil)
 	return err
 }

@@ -3,32 +3,32 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/v1/user HTTP/1.1
+POST http://localhost:3001/user HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "test",
-    "lastName": "test1"
+    "firstName": "me",
+    "lastName": "me"
 }
 
 ###
-PATCH http://localhost:3000/user/376536ec-13bb-4a4b-81a8-f052834e1f1f HTTP/1.1
+PATCH http://localhost:3001/user/36ceadb7-eaaa-4185-b3d3-1528ba0815ea HTTP/1.1
 content-type: application/json
 
 {
-    "firstName": "update",
-    "lastName": "update"
+    "firstName": "you",
+    "lastName": "you"
 }
 
 ###
 
-GET http://localhost:3001/v1/user/44ae254f-0f89-402b-92c2-416746f87ef1 HTTP/1.1
+GET http://localhost:3001/user/2cc8c638-c1a5-4c03-861d-949c3777b683 HTTP/1.1
 content-type: application/json
 ###
 
-GET http://localhost:3001/v1/user HTTP/1.1
+GET http://localhost:3001/user HTTP/1.1
 content-type: application/json
 ###
 
-DELETE  http://localhost:3001/v1/user/d0813298-695c-46f7-8611-2d7c8560c959 HTTP/1.1
+DELETE  http://localhost:3001/user/2cc8c638-c1a5-4c03-861d-949c3777b683 HTTP/1.1
 content-type: application/json
