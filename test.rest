@@ -1,0 +1,29 @@
+POST http://localhost:3001/v1/user HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "teemu",
+    "lastName": "halme"
+}
+
+###
+PATCH http://localhost:3000/user/376536ec-13bb-4a4b-81a8-f052834e1f1f HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "update",
+    "lastName": "update"
+}
+
+###
+
+GET http://localhost:3001/v1/user/94008c07-c6b9-447c-9072-1b19929d64f7 HTTP/1.1
+content-type: application/json
+###
+
+GET http://localhost:3000/user/ece02bfb-a270-4ab0-b1e5-055d5f4bb158 HTTP/1.1
+content-type: application/json
+###
+
+DELETE  http://localhost:3000/user/ece02bfb-a270-4ab0-b1e5-055d5f4bb158 HTTP/1.1
+content-type: application/json
