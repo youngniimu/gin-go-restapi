@@ -9,7 +9,7 @@ import (
 	"github.com/syndtr/goleveldb/leveldb"
 )
 
-func TestCreateUserAndGetUser(t *testing.T) {
+func TestCreateUserAndGetUserAndUpdateUserAndDeleteUser(t *testing.T) {
 	db, err := leveldb.OpenFile("_testdb", nil)
 	if err != nil {
 		t.Errorf("failed to open db")
@@ -27,7 +27,22 @@ func TestCreateUserAndGetUser(t *testing.T) {
 		t.Errorf("user entry not saved correctly")
 	}
 
-	db.Close()
-	os.Remove("_testdb")
-}
+	testService.UpdateUser(&models.User{FirstName: "tmu", LastName: "hlm"}, newUser.PersonalCode.String())
 
+	userInDb, _ = testService.GetUser(newUser.PersonalCode.String())
+
+	if userInDb.FirstName != "tmu" || userInDb.LastName != "hlm" {
+		t.Errorf("user entry not updated correctly")
+	}
+
+	testService.DeleteUser(newUser.PersonalCode.String())
+
+	allUsers, _ := testService.GetAll()
+
+	if len(allUsers) != 0 {
+		t.Errorf("user delete failed")
+	}
+
+	db.Close()
+	os.RemoveAll("_testdb")
+}
